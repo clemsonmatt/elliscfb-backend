@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  conference: one
+  name: MyString
+  name_short: MyString
+  name_abbr: MyString
+  slug: MyString
+  mascot: MyString
+  city: MyString
+  state: MyString
+  school: MyString
+  stadium_name: MyString
+  primary_color: MyString
+  secondary_color: MyString
+  logo: MyString
+
+two:
+  conference: two
+  name: MyString
+  name_short: MyString
+  name_abbr: MyString
+  slug: MyString
+  mascot: MyString
+  city: MyString
+  state: MyString
+  school: MyString
+  stadium_name: MyString
+  primary_color: MyString
+  secondary_color: MyString
+  logo: MyString
