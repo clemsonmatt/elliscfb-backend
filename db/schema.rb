@@ -10,13 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_21_181646) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_013548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "conferences", force: :cascade do |t|
     t.string "name", null: false
     t.string "name_short", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.bigint "home_team_id", null: false
+    t.bigint "away_team_id", null: false
+    t.bigint "winning_team_id"
+    t.date "date", null: false
+    t.string "time"
+    t.string "location"
+    t.decimal "spread", precision: 3, scale: 1
+    t.bigint "predicted_winning_team_id"
+    t.boolean "conference_championship", default: false
+    t.string "bowl_name"
+    t.boolean "pickem", default: false
+    t.boolean "canceled", default: false
+    t.string "network"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away_team_id"], name: "index_games_on_away_team_id"
+    t.index ["home_team_id"], name: "index_games_on_home_team_id"
+    t.index ["predicted_winning_team_id"], name: "index_games_on_predicted_winning_team_id"
+    t.index ["winning_team_id"], name: "index_games_on_winning_team_id"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "year", null: false
+    t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -55,5 +84,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_181646) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "weeks", force: :cascade do |t|
+    t.bigint "season_id", null: false
+    t.integer "number", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_weeks_on_season_id"
+  end
+
+  add_foreign_key "games", "teams", column: "away_team_id"
+  add_foreign_key "games", "teams", column: "home_team_id"
+  add_foreign_key "games", "teams", column: "predicted_winning_team_id"
+  add_foreign_key "games", "teams", column: "winning_team_id"
   add_foreign_key "teams", "conferences"
+  add_foreign_key "weeks", "seasons"
 end

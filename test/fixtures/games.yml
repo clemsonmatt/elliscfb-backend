@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  home_team: one
+  away_team: one
+  winning_team: one
+  date: 2023-03-21
+  time: MyString
+  location: MyString
+  spread: 9.99
+  predicted_winning_team: one
+  conference_championship: false
+  bowl_name: MyString
+  pickem: false
+  canceled: false
+  network: MyString
+
+two:
+  home_team: two
+  away_team: two
+  winning_team: two
+  date: 2023-03-21
+  time: MyString
+  location: MyString
+  spread: 9.99
+  predicted_winning_team: two
+  conference_championship: false
+  bowl_name: MyString
+  pickem: false
+  canceled: false
+  network: MyString

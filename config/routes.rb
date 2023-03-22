@@ -1,9 +1,21 @@
 Rails.application.routes.draw do
-  resources :teams
+  resources :games, only: [:show]
+  resources :weeks, only: [] do
+    collection do
+      get '/:id/games', action: :games
+    end
+  end
+  resources :seasons, only: [] do
+    collection do
+      get '/active-weeks', action: :active_weeks
+    end
+  end
+  resources :teams, only: [] do
+    collection do
+      get '/:slug', action: :show
+      get '/:slug/games', action: :games
+    end
+  end
   resources :conferences
   resources :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
