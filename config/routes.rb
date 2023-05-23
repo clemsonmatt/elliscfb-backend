@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   end
   resources :conferences
   resources :users
+  post '/login', to: 'sessions#login'
 end
