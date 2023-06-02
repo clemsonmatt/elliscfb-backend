@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :games, only: [:show]
+  resources :games, only: [:show] do
+    collection do
+      get '/:id/week', action: :week
+    end
+  end
   resources :weeks, only: [] do
     collection do
-      get '/:id/games', action: :games
+      get '/full-season', action: :full_season
     end
   end
   resources :seasons, only: [] do
