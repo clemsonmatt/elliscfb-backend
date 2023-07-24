@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :games, only: [:show] do
+  resources :games, only: [:show, :create] do
     collection do
       get '/:id/week', action: :week
     end
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get '/active-weeks', action: :active_weeks
     end
   end
-  resources :teams, only: [] do
+  resources :teams, only: [:index] do
     collection do
       get '/:slug', action: :show
       get '/:slug/games', action: :games
