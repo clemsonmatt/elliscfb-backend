@@ -18,17 +18,21 @@ class GamesController < ApplicationController
     away_team = Team.find_by(slug: params[:away_team])
     predicted_winner = Team.find_by(slug: params[:predicted_winner])
 
-    game = Game.create!(
-      date: Date.parse(params[:date]),
-      home_team: home_team,
-      away_team: away_team,
-      time: params[:time],
-      location: params[:location],
-      spread: params[:spread],
-      predicted_winning_team: predicted_winner,
-      conference_championship: params[:conference_championship] == 'yes',
-      bowl_name: params[:bowl_name]
-    )
+    begin
+      game = Game.create!(
+        date: Date.parse(params[:date]),
+        home_team: home_team,
+        away_team: away_team,
+        time: params[:time],
+        location: params[:location],
+        spread: params[:spread],
+        predicted_winning_team: predicted_winner,
+        conference_championship: params[:conference_championship] == 'yes',
+        bowl_name: params[:bowl_name]
+      )
+    rescue => exception
+      return render json: { error: exception }, status: 500
+    end
 
     render json: game.to_json(include: [:home_team, :away_team, :winning_team])
   end
