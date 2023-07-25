@@ -1,4 +1,10 @@
 class TeamsController < ApplicationController
+  def index
+    teams = Team.order(name: :asc)
+
+    render json: teams
+  end
+
   def show
     team = Team.find_by(slug: params[:slug])
 
