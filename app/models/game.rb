@@ -7,4 +7,16 @@ class Game < ApplicationRecord
   has_many :game_stats
 
   scope :ordered_by_time, -> { order(Arel.sql("TO_TIMESTAMP(time, 'hh:mi AM')")) }
+
+  def home_team_stats
+    game_stats.each do |stat|
+      return stat if stat.team == home_team
+    end
+  end
+
+  def away_team_stats
+    game_stats.each do |stat|
+      return stat if stat.team == away_team
+    end
+  end
 end
