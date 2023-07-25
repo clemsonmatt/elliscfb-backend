@@ -4,6 +4,11 @@ Rails.application.routes.draw do
       get '/:id/week', action: :week
     end
   end
+  resources :game_stats, only: [:create, :update], path: '/game-stats' do
+    collection do
+      get '/:id/week', action: :week
+    end
+  end
   resources :weeks, only: [] do
     collection do
       get '/full-season', action: :full_season
