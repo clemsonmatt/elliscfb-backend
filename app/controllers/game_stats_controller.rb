@@ -22,7 +22,15 @@ class GameStatsController < ApplicationController
         q1: params[:home_q1],
         q2: params[:home_q2],
         q3: params[:home_q3],
-        q4: params[:home_q4]
+        q4: params[:home_q4],
+        ot: params[:home_ot],
+        rushing_yards: params[:home_rushing_yards],
+        rushing_attempts: params[:home_rushing_attempts],
+        passing_yards: params[:home_passing_yards],
+        passing_attempts: params[:home_passing_attempts],
+        passing_completions: params[:home_passing_completions],
+        turnovers: params[:home_turnovers],
+        penalty_yards: params[:home_penalty_yards]
       )
 
       away_stat = GameStat.create!(
@@ -32,7 +40,15 @@ class GameStatsController < ApplicationController
         q1: params[:away_q1],
         q2: params[:away_q2],
         q3: params[:away_q3],
-        q4: params[:away_q4]
+        q4: params[:away_q4],
+        ot: params[:away_ot],
+        rushing_yards: params[:away_rushing_yards],
+        rushing_attempts: params[:away_rushing_attempts],
+        passing_yards: params[:away_passing_yards],
+        passing_attempts: params[:away_passing_attempts],
+        passing_completions: params[:away_passing_completions],
+        turnovers: params[:away_turnovers],
+        penalty_yards: params[:away_penalty_yards]
       )
 
       # update game's winning team
@@ -56,7 +72,15 @@ class GameStatsController < ApplicationController
         q1: params[:home_q1],
         q2: params[:home_q2],
         q3: params[:home_q3],
-        q4: params[:home_q4]
+        q4: params[:home_q4],
+        ot: params[:home_ot],
+        rushing_yards: params[:home_rushing_yards],
+        rushing_attempts: params[:home_rushing_attempts],
+        passing_yards: params[:home_passing_yards],
+        passing_attempts: params[:home_passing_attempts],
+        passing_completions: params[:home_passing_completions],
+        turnovers: params[:home_turnovers],
+        penalty_yards: params[:home_penalty_yards]
       )
 
       away_stat = GameStat.find_by(game: game, team: game.away_team)
@@ -65,7 +89,15 @@ class GameStatsController < ApplicationController
         q1: params[:away_q1],
         q2: params[:away_q2],
         q3: params[:away_q3],
-        q4: params[:away_q4]
+        q4: params[:away_q4],
+        ot: params[:away_ot],
+        rushing_yards: params[:away_rushing_yards],
+        rushing_attempts: params[:away_rushing_attempts],
+        passing_yards: params[:away_passing_yards],
+        passing_attempts: params[:away_passing_attempts],
+        passing_completions: params[:away_passing_completions],
+        turnovers: params[:away_turnovers],
+        penalty_yards: params[:away_penalty_yards]
       )
 
       # update game's winning team
