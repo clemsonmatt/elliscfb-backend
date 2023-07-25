@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game: one
+  team: one
+  q1: 1
+  q2: 1
+  q3: 1
+  q4: 1
+  ot: 1
+  rushing_yards: 1
+  rushing_attempts: 1
+  passing_yards: 1
+  passing_attempts: 1
+  passing_completions: 1
+  turnovers: 1
+  penalty_yards: 1
+
+two:
+  game: two
+  team: two
+  q1: 1
+  q2: 1
+  q3: 1
+  q4: 1
+  ot: 1
+  rushing_yards: 1
+  rushing_attempts: 1
+  passing_yards: 1
+  passing_attempts: 1
+  passing_completions: 1
+  turnovers: 1
+  penalty_yards: 1
