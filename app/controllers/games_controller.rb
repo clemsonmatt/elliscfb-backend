@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   def week
     season = Season.where(active: true).first
     week = Week.find_by(season: season, number: params[:id])
-    games = Game.where("date > ? AND date < ?", week.start_date, week.end_date)
+    games = Game.where("date > ? AND date < ?", week.start_date, week.end_date).ordered_by_time
 
     render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team])
   end
@@ -53,6 +53,7 @@ class GamesController < ApplicationController
         spread: params[:spread],
         predicted_winning_team: predicted_winning_team,
         conference_championship: params[:conference_championship] == 'yes',
+        canceled: params[:canceled] == 'yes',
         bowl_name: params[:bowl_name]
       )
     rescue => exception
