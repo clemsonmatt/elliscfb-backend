@@ -14,4 +14,17 @@ class User < ApplicationRecord
   def initials
     "#{first_name.first}#{last_name.first}"
   end
+
+  def permissions
+    roles || 'Role.User'
+  end
+
+  def api_details
+    {
+      id:,
+      username:,
+      name: self.to_s,
+      initials:
+    }
+  end
 end
