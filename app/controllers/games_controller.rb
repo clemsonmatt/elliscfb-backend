@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :is_admin, only: [:create, :update]
+  before_action :is_admin, only: [:create, :update, :import]
 
   def week
     season = Season.where(active: true).first
@@ -13,6 +13,21 @@ class GamesController < ApplicationController
     game = Game.find(params[:id])
 
     render json: game.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team, :home_team_stats, :away_team_stats, :week])
+  end
+
+  def import
+    season = Season.where(active: true).first
+    week = Week.find_by(season: season, number: params[:id])
+
+    begin
+      ImportWeekGames.call(week)
+    rescue => exception
+      return render json: { error: exception }, status: 500
+    end
+
+    games = Game.where("date > ? AND date < ?", week.start_date, week.end_date).ordered_by_time
+
+    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team])
   end
 
   def create
