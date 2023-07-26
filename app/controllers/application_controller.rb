@@ -3,6 +3,10 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate_request
 
+  def is_admin
+    return render json: { error: 'Unauthorized' }, status: 404 unless @current_user&.permissions == 'manage'
+  end
+
   private
 
   def authenticate_request

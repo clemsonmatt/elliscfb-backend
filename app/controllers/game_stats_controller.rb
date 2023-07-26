@@ -1,4 +1,6 @@
 class GameStatsController < ApplicationController
+  before_action :is_admin
+
   def week
     season = Season.where(active: true).first
     week = Week.find_by(season: season, number: params[:id])
