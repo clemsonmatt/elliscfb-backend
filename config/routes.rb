@@ -26,6 +26,10 @@ Rails.application.routes.draw do
     end
   end
   resources :conferences
-  resources :users
+  resources :users, only: [:create] do
+    collection do
+      get '/details', action: :details
+    end
+  end
   post '/login', to: 'sessions#login'
 end

@@ -6,14 +6,12 @@ class SessionsController < ApplicationController
 
     if @user&.authenticate(params[:password])
       token = jwt_encode(user_id: @user.id)
+      roles = @user.permissions
+
       render json: {
         token: token,
-        user: {
-          id: @user.id,
-          username: @user.username,
-          name: @user.to_s,
-          initials: @user.initials
-        }
+        roles: roles,
+        user: @user.api_details
       }, status: :ok
     else
       render json: { error: 'Invalid email or password' }, status: :unprocessable_entity

@@ -11,6 +11,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def details
+    render json: {
+      user: @current_user.api_details,
+      roles: @current_user.permissions
+    }
+  end
+
   private
 
   def user_params
