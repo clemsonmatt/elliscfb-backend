@@ -26,7 +26,7 @@ class ImportWeekGames < ApplicationService
         bowl_name = game['notes'] if game['season_type'] != 'regular'
 
         date = Time.find_zone('Eastern Time (US & Canada)').parse(game['start_date']).to_datetime
-        time = date.to_time.localtime.strftime('%I:%M %p')
+        time = date.to_time.localtime.strftime('%I:%M %p') unless game['start_time_tbd']
 
         Game.create!(
           home_team:,
