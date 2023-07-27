@@ -28,14 +28,25 @@ class ImportWeekGames < ApplicationService
         date = Time.find_zone('Eastern Time (US & Canada)').parse(game['start_date']).to_datetime
         time = date.to_time.localtime.strftime('%I:%M %p') unless game['start_time_tbd']
 
-        Game.create!(
+        cfbd_game_id = game['id']
+
+        details = {
           home_team:,
           away_team:,
           date:,
           time:,
           location: game['venue'],
-          bowl_name:
-        )
+          bowl_name:,
+          cfbd_game_id:
+        }
+
+        # see if game is already created
+        created_game = Game.find_by(cfbd_game_id:)
+        if created_game.nil?
+          Game.create!(details)
+        else
+          created_game.update(details)
+        end
       rescue => exception
         errors.push game.to_json
       end
