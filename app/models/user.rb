@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create
 
   def to_s
     "#{first_name} #{last_name}"
