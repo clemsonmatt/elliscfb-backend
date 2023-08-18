@@ -12,6 +12,13 @@ class UsersController < ApplicationController
   end
 
   def details
+    if @current_user.nil?
+      return render json: {
+        user: nil,
+        roles: nil
+      }
+    end
+
     render json: {
       user: @current_user.api_details,
       roles: @current_user.permissions
