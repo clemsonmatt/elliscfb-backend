@@ -16,11 +16,15 @@ class Game < ApplicationRecord
     game_stats.each do |stat|
       return stat if stat.team == home_team
     end
+
+    nil
   end
 
   def away_team_stats
     game_stats.each do |stat|
       return stat if stat.team == away_team
     end
+
+    nil
   end
 end
