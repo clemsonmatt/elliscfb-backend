@@ -15,14 +15,6 @@ class GamesController < ApplicationController
     render json: game.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team, :home_team_stats, :away_team_stats, :week])
   end
 
-  def week_pickem
-    season = Season.where(active: true).first
-    week = Week.find_by(season: season, number: params[:id])
-    games = Game.where("date > ? AND date < ?", week.start_date, week.end_date).where(pickem: true).ordered_by_time
-
-    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team])
-  end
-
   def import
     season = Season.where(active: true).first
     week = Week.find_by(season: season, number: params[:id])

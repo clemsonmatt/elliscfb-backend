@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_18_180511) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_24_150547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_180511) do
     t.index ["home_team_id"], name: "index_games_on_home_team_id"
     t.index ["predicted_winning_team_id"], name: "index_games_on_predicted_winning_team_id"
     t.index ["winning_team_id"], name: "index_games_on_winning_team_id"
+  end
+
+  create_table "pickems", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_pickems_on_game_id"
+    t.index ["team_id"], name: "index_pickems_on_team_id"
+    t.index ["user_id"], name: "index_pickems_on_user_id"
   end
 
   create_table "seasons", force: :cascade do |t|
@@ -124,6 +135,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_180511) do
   add_foreign_key "games", "teams", column: "home_team_id"
   add_foreign_key "games", "teams", column: "predicted_winning_team_id"
   add_foreign_key "games", "teams", column: "winning_team_id"
+  add_foreign_key "pickems", "games"
+  add_foreign_key "pickems", "teams"
+  add_foreign_key "pickems", "users"
   add_foreign_key "teams", "conferences"
   add_foreign_key "weeks", "seasons"
 end
