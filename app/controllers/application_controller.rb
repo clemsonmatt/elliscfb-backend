@@ -13,6 +13,10 @@ class ApplicationController < ActionController::API
 
     return false if token.nil?
 
-    @current_user = User.find_by(token:)
+    # find an active session
+    session = UserSession.where(token:).where("expires_at > ?", DateTime.now).first
+
+    # set current user
+    @current_user = session.user unless session.nil?
   end
 end
