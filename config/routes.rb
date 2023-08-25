@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   resources :games, only: [:show, :create, :update] do
     collection do
       get '/:id/week', action: :week
-      get '/:id/week-pickem', action: :week_pickem
       get '/:id/import', action: :import
     end
   end
@@ -31,6 +30,13 @@ Rails.application.routes.draw do
   resources :users, only: [:create] do
     collection do
       get '/details', action: :details
+    end
+  end
+  resources :pickem, only: [] do
+    collection do
+      get '/:id/week-games', action: :week_games
+      get '/:id/week-picks', action: :week_picks
+      post '/game-winner', action: :game_winner
     end
   end
   post '/login', to: 'sessions#login'
