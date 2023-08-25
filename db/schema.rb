@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_24_150547) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_191802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_150547) do
     t.index ["conference_id"], name: "index_teams_on_conference_id"
   end
 
+  create_table "user_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "password_digest"
@@ -116,7 +125,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_150547) do
     t.string "phone_carrier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "token"
   end
 
   create_table "weeks", force: :cascade do |t|
@@ -139,5 +147,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_150547) do
   add_foreign_key "pickems", "teams"
   add_foreign_key "pickems", "users"
   add_foreign_key "teams", "conferences"
+  add_foreign_key "user_sessions", "users"
   add_foreign_key "weeks", "seasons"
 end

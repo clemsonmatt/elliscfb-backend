@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
     if @user&.authenticate(params[:password])
       # generate a new token for user
       token = SecureRandom.uuid
-      @user.update!(token: token)
+      expires_at = DateTime.now + 1.month
+      UserSession.create(user: @user, token:, expires_at:)
 
       roles = @user.permissions
 
