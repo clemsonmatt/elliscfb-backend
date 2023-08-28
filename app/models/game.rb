@@ -23,4 +23,8 @@ class Game < ApplicationRecord
       return stat if stat.team == away_team
     end
   end
+
+  def datetime
+    Time.find_zone('Eastern Time (US & Canada)').parse("#{date} #{time}").to_datetime
+  end
 end

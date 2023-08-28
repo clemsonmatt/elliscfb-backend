@@ -2,7 +2,7 @@ class PickemController < ApplicationController
   def week_games
     games = games_for_week(params[:id])
 
-    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team])
+    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team], methods: :datetime)
   end
 
   def week_picks
@@ -69,12 +69,8 @@ class PickemController < ApplicationController
 
     games = games_for_week(week.number)
 
-
     games.map do |game|
-      date = Time.find_zone('Eastern Time (US & Canada)').parse("#{game.date} #{game.time}").to_datetime
-      time = date.to_time.localtime.strftime('%I:%M %p')
-
-      game if time > Time.find_zone('Eastern Time (US & Canada)').now
+      game if game.datetime >= Time.find_zone('Eastern Time (US & Canada)').now
     end
 
   end
