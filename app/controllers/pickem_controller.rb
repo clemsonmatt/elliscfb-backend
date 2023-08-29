@@ -11,6 +11,12 @@ class PickemController < ApplicationController
     render json: { picks: picks.to_json }
   end
 
+  def week_picks_all
+    users_picks = week_picks_for_all_users(params[:id])
+
+    render json: { user_picks: users_picks }
+  end
+
   def game_winner
     game = Game.find(params[:game])
     team = Team.find(params[:team])
@@ -54,6 +60,28 @@ class PickemController < ApplicationController
     pickems = Pickem.where(game: game_ids).where(user: @current_user)
     picks = pickems.map(&:team)
     picks.map!(&:slug)
+  end
+
+  def week_picks_for_all_users(week_number)
+    games = games_for_week(week_number)
+    game_ids = games.map { |game| game.id }
+
+    pickems = Pickem.where(game: game_ids)
+    users = pickems.map(&:user).uniq
+
+    user_pickems = []
+    users.each do |user|
+      user_picks = Pickem.where(game: game_ids).where(user:)
+      user_picks = user_picks.map(&:team)
+      user_picks.map!(&:slug)
+
+      user_pickems.push({
+        username: user.username,
+        picks: user_picks
+      })
+    end
+
+    user_pickems
   end
 
   def games_for_week(week_number)
