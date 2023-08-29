@@ -55,7 +55,18 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "backend_production"
 
+  config.x.mail_from = %(EllisCFB <no-reply@elliscfb.app>)
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: Rails.application.credentials[Rails.env.to_sym][:host] }
+  config.action_mailer.smtp_settings = {
+    address: Rails.application.credentials[Rails.env.to_sym][:ses_address],
+    port: 587,
+    user_name: Rails.application.credentials[Rails.env.to_sym][:ses_username],
+    password: Rails.application.credentials[Rails.env.to_sym][:ses_password],
+    authentication: :login
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
