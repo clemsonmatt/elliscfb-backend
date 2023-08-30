@@ -2,7 +2,7 @@ class PickemController < ApplicationController
   def week_games
     games = games_for_week(params[:id])
 
-    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team], methods: :datetime)
+    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team], methods: [:datetime, :away_team_stats, :home_team_stats])
   end
 
   def week_picks
