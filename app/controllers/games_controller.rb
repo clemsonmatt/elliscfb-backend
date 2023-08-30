@@ -6,13 +6,13 @@ class GamesController < ApplicationController
     week = Week.find_by(season: season, number: params[:id])
     games = Game.where("date > ? AND date < ?", week.start_date, week.end_date).ordered_by_time
 
-    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team])
+    render json: games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team], methods: :datetime)
   end
 
   def show
     game = Game.find(params[:id])
 
-    render json: game.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team, :home_team_stats, :away_team_stats, :week])
+    render json: game.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team, :home_team_stats, :away_team_stats, :week], methods: :datetime)
   end
 
   def import

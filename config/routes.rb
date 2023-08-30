@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     collection do
       get '/:slug', action: :show
       get '/:slug/games', action: :games
+      get '/:slug/next-game', action: :next_game
     end
   end
   resources :conferences
