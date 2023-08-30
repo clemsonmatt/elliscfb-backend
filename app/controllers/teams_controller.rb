@@ -17,7 +17,7 @@ class TeamsController < ApplicationController
 
     render json: {
       team: team,
-      games: JSON.parse(games.to_json(include: [:home_team, :away_team], methods: :datetime))
+      games: JSON.parse(games.to_json(include: [:home_team, :away_team, :winning_team], methods: [:datetime, :home_team_stats, :away_team_stats]))
     }
   end
 
@@ -31,6 +31,9 @@ class TeamsController < ApplicationController
   private
 
   def team_games(team)
-    Game.where("home_team_id = ? OR away_team_id = ?", team.id, team.id).where("date >= ?", Date.today).order(date: :asc)
+    season = Season.find_by(active: true)
+    week = Week.where(season: season, number: 1).first
+
+    Game.where("home_team_id = ? OR away_team_id = ?", team.id, team.id).where("date >= ?", week.start_date).order(date: :asc)
   end
 end
