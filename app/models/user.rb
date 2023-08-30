@@ -24,7 +24,8 @@ class User < ApplicationRecord
       id:,
       username:,
       name: self.to_s,
-      initials:
+      initials:,
+      email:
     }
   end
 end
