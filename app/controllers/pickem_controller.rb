@@ -51,6 +51,10 @@ class PickemController < ApplicationController
     render json: { picks: picks.to_json }
   end
 
+  def show_time
+    render json: SystemSetting.find_by(name: :show_time).value
+  end
+
   private
 
   def week_picks_for_user(week_number)
