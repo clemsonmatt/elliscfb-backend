@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::API
-  include JsonWebToken
-
   before_action :authenticate_request
 
   def is_admin
@@ -11,9 +9,14 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     header = request.headers['Authorization']
-    header = header.split(' ').last if header
-    decoded = jwt_decode(header)
+    token = header.split(' ').last if header
 
-    @current_user = User.find(decoded[:user_id])
+    return false if token.nil?
+
+    # find an active session
+    session = UserSession.where(token:).where("expires_at > ?", DateTime.now).first
+
+    # set current user
+    @current_user = session.user unless session.nil?
   end
 end

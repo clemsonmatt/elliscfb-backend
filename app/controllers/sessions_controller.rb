@@ -5,7 +5,11 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params[:email])
 
     if @user&.authenticate(params[:password])
-      token = jwt_encode(user_id: @user.id)
+      # generate a new token for user
+      token = SecureRandom.uuid
+      expires_at = DateTime.now + 1.month
+      UserSession.create(user: @user, token:, expires_at:)
+
       roles = @user.permissions
 
       render json: {
