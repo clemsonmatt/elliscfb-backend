@@ -35,16 +35,16 @@ class ImportWeekGameStats < ApplicationService
             game: created_game,
             team: created_game.home_team,
             final: game['home_points'],
-            q1: quarter_scores.shift
-            q2: quarter_scores.shift
-            q3: quarter_scores.shift
-            q4: quarter_scores.shift
+            q1: quarter_scores.shift,
+            q2: quarter_scores.shift,
+            q3: quarter_scores.shift,
+            q4: quarter_scores.shift,
             ot: nil
           )
 
           # check for ot score
-          total = home_stat.q1 + home_stat.q2 + home_stat.q3 + home_stat.q4
-          home_stat.update(ot: final - total) unless final == total
+          # total = home_stat.q1 + home_stat.q2 + home_stat.q3 + home_stat.q4
+          # home_stat.update(ot: final - total) unless final == total
         end
 
         # add away stats
@@ -55,21 +55,21 @@ class ImportWeekGameStats < ApplicationService
             game: created_game,
             team: created_game.away_team,
             final: game['away_points'],
-            q1: quarter_scores.shift
-            q2: quarter_scores.shift
-            q3: quarter_scores.shift
-            q4: quarter_scores.shift
+            q1: quarter_scores.shift,
+            q2: quarter_scores.shift,
+            q3: quarter_scores.shift,
+            q4: quarter_scores.shift,
             ot: nil
           )
 
           # check for ot score
-          total = away_stat.q1 + away_stat.q2 + away_stat.q3 + away_stat.q4
-          away_stat.update(ot: final - total) unless final == total
+          # total = away_stat.q1 + away_stat.q2 + away_stat.q3 + away_stat.q4
+          # away_stat.update(ot: final - total) unless final == total
         end
 
         # update winning team on game
-        winning_team = home_team
-        winning_team = away_team if away_stat.final > home_stat.final
+        winning_team = created_game.home_team
+        winning_team = created_game.away_team if away_stat.final > home_stat.final
         created_game.update(winning_team:)
       rescue => exception
         errors.push game.to_json
