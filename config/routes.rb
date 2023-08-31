@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :game_stats, only: [:create, :update], path: '/game-stats' do
     collection do
       get '/:id/week', action: :week
+      get '/:id/import', action: :import
     end
   end
   resources :weeks, only: [] do
