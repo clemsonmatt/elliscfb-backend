@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get '/:id/week-picks', action: :week_picks
       get '/:id/week-picks-all', action: :week_picks_all
       post '/game-winner', action: :game_winner
+      get '/stats', action: :stats
       get '/show-time', action: :show_time
     end
   end
