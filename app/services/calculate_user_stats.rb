@@ -14,12 +14,17 @@ class CalculateUserStats < ApplicationService
     # misses
     misses = games - (wins + losses)
 
-    # calculate percentage
-    raw_percentage = wins.to_f / (wins + losses).to_f
-    percentage = (raw_percentage * 100).round(1)
+    percentage = 0
+    score = 0
 
-    # calculate points
-    score = (5 * (wins * raw_percentage / 5).round(2) * 10).round(1)
+    if wins + losses > 0
+      # calculate percentage
+      raw_percentage = wins.to_f / (wins + losses).to_f
+      percentage = (raw_percentage * 100).round(1)
+
+      # calculate points
+      score = (5 * (wins * raw_percentage / 5).round(2) * 10).round(1)
+    end
 
     {
       wins:,
