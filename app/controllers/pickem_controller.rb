@@ -61,6 +61,16 @@ class PickemController < ApplicationController
     render json: stats
   end
 
+  def leaderboard
+    begin
+      leaderboard = RankLeaderboard.call(@current_user)
+    rescue => exception
+      return render json: { error: exception }, status: 500
+    end
+
+    render json: leaderboard
+  end
+
   def show_time
     render json: SystemSetting.find_by(name: :show_time).value
   end
