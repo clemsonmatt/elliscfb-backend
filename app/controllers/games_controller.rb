@@ -79,4 +79,14 @@ class GamesController < ApplicationController
 
     render json: game.to_json(include: [:home_team, :away_team, :predicted_winning_team])
   end
+
+  def toggle_pickem
+    game = Game.find(params[:id])
+
+    if game.update(pickem: params[:pickem])
+      render json: game.to_json(include: [:home_team, :away_team, :predicted_winning_team])
+    else
+      render json: { error: exception }, status: 500
+    end
+  end
 end
