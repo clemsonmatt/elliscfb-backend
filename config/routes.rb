@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     collection do
       get '/:id/week', action: :week
       get '/:id/import', action: :import
+      post '/:id/toggle-pickem', action: :toggle_pickem
     end
   end
   resources :game_stats, only: [:create, :update], path: '/game-stats' do
