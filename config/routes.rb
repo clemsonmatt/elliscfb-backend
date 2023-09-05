@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     end
   end
   resources :conferences
-  resources :users, only: [:create] do
+  resources :users, only: [:create, :update] do
     collection do
       get '/details', action: :details
     end
