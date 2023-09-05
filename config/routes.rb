@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :weeks, only: [] do
     collection do
       get '/full-season', action: :full_season
+      get '/pickem-available', action: :pickem_available
     end
   end
   resources :seasons, only: [] do
