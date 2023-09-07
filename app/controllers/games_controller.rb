@@ -21,6 +21,7 @@ class GamesController < ApplicationController
 
     begin
       ImportWeekGames.call(week)
+      ImportGameLines.call(week)
     rescue => exception
       return render json: { error: exception }, status: 500
     end
