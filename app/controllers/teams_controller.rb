@@ -17,15 +17,26 @@ class TeamsController < ApplicationController
 
     render json: {
       team: team,
-      games: JSON.parse(games.to_json(include: [:home_team, :away_team, :winning_team], methods: [:datetime, :home_team_stats, :away_team_stats]))
+      games: JSON.parse(games.to_json(include: [:home_team, :away_team, :winning_team, :predicted_winning_team], methods: [:datetime, :home_team_stats, :away_team_stats]))
     }
   end
 
   def next_game
     team = Team.find_by(slug: params[:slug])
-    game = team_games(team).first
 
-    render json: game.to_json(include: [:home_team, :away_team], methods: :datetime)
+    next_game = nil
+
+    games = team_games(team)
+    games.each do |game|
+      if game.date >= Date.today
+        next_game = game
+        break
+      end
+    end
+
+    render json: nil if next_game.nil?
+
+    render json: next_game.to_json(include: [:home_team, :away_team, :predicted_winning_team], methods: :datetime)
   end
 
   private
