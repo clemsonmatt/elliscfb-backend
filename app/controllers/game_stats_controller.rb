@@ -9,6 +9,21 @@ class GameStatsController < ApplicationController
     render json: games.to_json(include: [:home_team, :away_team, :winning_team])
   end
 
+  def import
+    season = Season.where(active: true).first
+    week = Week.find_by(season: season, number: params[:id])
+
+    begin
+      ImportWeekGameStats.call(week)
+    rescue => exception
+      return render json: { error: exception }, status: 500
+    end
+
+    games = Game.where("date > ? AND date < ?", week.start_date, week.end_date).where("winning_team_id IS NULL").ordered_by_time
+
+    render json: games.to_json(include: [:home_team, :away_team, :winning_team])
+  end
+
   def create
     game = Game.find(params[:game_id])
 

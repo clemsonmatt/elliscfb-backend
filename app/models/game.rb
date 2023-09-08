@@ -6,7 +6,7 @@ class Game < ApplicationRecord
 
   has_many :game_stats
 
-  scope :ordered_by_time, -> { order(date: :asc).order(Arel.sql("TO_TIMESTAMP(time, 'hh:mi AM')")) }
+  scope :ordered_by_time, -> { order(date: :asc).order(Arel.sql("TO_TIMESTAMP(time, 'hh:mi AM')")).order(cfbd_game_id: :asc) }
 
   def week
     Week.find_by("start_date < ? AND end_date >= ?", date, date)
@@ -16,12 +16,16 @@ class Game < ApplicationRecord
     game_stats.each do |stat|
       return stat if stat.team == home_team
     end
+
+    nil
   end
 
   def away_team_stats
     game_stats.each do |stat|
       return stat if stat.team == away_team
     end
+
+    nil
   end
 
   def datetime
