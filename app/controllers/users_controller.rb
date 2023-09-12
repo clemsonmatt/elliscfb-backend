@@ -33,6 +33,20 @@ class UsersController < ApplicationController
     }
   end
 
+  def reset_password
+    user = User.find_by(reset_token: params[:reset_token])
+
+    # make sure we have a user
+    return render json: { error: 'No account found' }, status: :unprocessable_entity if user.nil?
+
+    # update password and clear reset_token
+    if user.update(password: params[:password], reset_token: nil)
+      render json: { success: true }, status: :ok
+    else
+      render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_create_params

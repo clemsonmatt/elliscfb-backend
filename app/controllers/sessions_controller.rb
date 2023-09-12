@@ -21,4 +21,21 @@ class SessionsController < ApplicationController
       render json: { error: 'Invalid email or password' }, status: :unprocessable_entity
     end
   end
+
+  def forgot_password
+    user = User.find_by(email: params[:email])
+
+    # if we don't have a user, send success message so that we
+    # don't let anyone know we didn't find an account with that email
+    return render json: { success: true }, status: :ok if user.nil?
+
+    begin
+      # update the reset_token and send email
+      ResetPasswordEmail.call(user)
+
+      render json: { success: true }, status: :ok
+    rescue => exception
+      render json: { error: exception }, status: :unprocessable_entity
+    end
+  end
 end
