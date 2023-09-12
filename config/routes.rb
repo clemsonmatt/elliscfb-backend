@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create, :update] do
     collection do
       get '/details', action: :details
+      post '/reset-password', action: :reset_password
     end
   end
   resources :pickem, only: [] do
@@ -47,5 +48,13 @@ Rails.application.routes.draw do
       get '/show-time', action: :show_time
     end
   end
+
+  scope as: :manage, module: :manage do
+    resource :email, only: [] do
+      get '/send-weekly-reminder', action: :send_weekly_reminder
+    end
+  end
+
   post '/login', to: 'sessions#login'
+  post '/forgot-password', to: 'sessions#forgot_password'
 end
