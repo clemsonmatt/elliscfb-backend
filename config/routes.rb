@@ -47,5 +47,12 @@ Rails.application.routes.draw do
       get '/show-time', action: :show_time
     end
   end
+
+  scope as: :manage, module: :manage do
+    resource :email, only: [] do
+      get '/send-weekly-reminder', action: :send_weekly_reminder
+    end
+  end
+
   post '/login', to: 'sessions#login'
 end
