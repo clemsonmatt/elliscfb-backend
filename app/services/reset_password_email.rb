@@ -11,7 +11,7 @@ class ResetPasswordEmail < ApplicationService
       user: @user,
       subject: 'Password Reset',
       body: 'Follow the link below to reset your password. This link will expire in 10 minutes.',
-      url: "https://#{Rails.application.credentials[Rails.env.to_sym][:host]}/reset-password/#{@user.reset_token}"
+      url: "https://elliscfb.com/reset-password/#{@user.reset_token}"
     }
 
     # send email
