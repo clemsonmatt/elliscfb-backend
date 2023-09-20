@@ -1,7 +1,7 @@
 class WeeksController < ApplicationController
   def full_season
     season = Season.where(active: true).first
-    weeks = Week.where(season: season)
+    weeks = Week.where(season: season).order(number: :desc)
 
     current_week = Week.current_week.first
     current_week = weeks.first if current_week.nil?
