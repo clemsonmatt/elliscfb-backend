@@ -48,6 +48,11 @@ Rails.application.routes.draw do
       get '/show-time', action: :show_time
     end
   end
+  resources :rankings, only: [:show] do
+    collection do
+      get '/:id/import', action: :import
+    end
+  end
 
   scope as: :manage, module: :manage do
     resource :email, only: [] do
