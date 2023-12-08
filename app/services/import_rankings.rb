@@ -23,7 +23,7 @@ class ImportRankings < ApplicationService
     polls = response.body[0]['polls']
 
     polls.each do |poll|
-      next unless ['AP Top 25', 'Coaches Poll', 'College Football Playoff'].include?(poll['poll'])
+      next unless ['AP Top 25', 'Coaches Poll', 'Playoff Committee Rankings'].include?(poll['poll'])
 
       poll['ranks'].each do |rank|
         team = Team.find_by(name_short: rank['school'])
