@@ -6,7 +6,12 @@ class ImportRankings < ApplicationService
 
   def call
     begin
-      response = @conn.get('rankings', { year: @week.season.year, week: @week.number })
+      # week 16 = bowls
+      if @week.number == 16
+        response = @conn.get('rankings', { year: @week.season.year, seasonType: 'postseason' })
+      else
+        response = @conn.get('rankings', { year: @week.season.year, week: @week.number })
+      end
     rescue Faraday::Error => e
       puts '+++++RANKINGS+++++'
       puts e.response[:status]
@@ -23,7 +28,7 @@ class ImportRankings < ApplicationService
     polls = response.body[0]['polls']
 
     polls.each do |poll|
-      next unless ['AP Top 25', 'Coaches Poll', 'College Football Playoff'].include?(poll['poll'])
+      next unless ['AP Top 25', 'Coaches Poll', 'Playoff Committee Rankings'].include?(poll['poll'])
 
       poll['ranks'].each do |rank|
         team = Team.find_by(name_short: rank['school'])

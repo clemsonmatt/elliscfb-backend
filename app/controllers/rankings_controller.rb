@@ -29,7 +29,7 @@ class RankingsController < ApplicationController
     return {
       ap_poll: poll_data(week:, poll: 'AP Top 25'),
       coaches_poll: poll_data(week:, poll: 'Coaches Poll'),
-      playoff_poll: poll_data(week:, poll: 'College Football Playoff')
+      playoff_poll: poll_data(week:, poll: 'Playoff Committee Rankings')
     }
   end
 

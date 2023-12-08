@@ -6,7 +6,12 @@ class ImportWeekGames < ApplicationService
 
   def call
     begin
-      response = @conn.get('games', { year: @week.season.year, week: @week.number, division: 'fbs' })
+      # week 16 = bowls
+      if @week.number == 16
+        response = @conn.get('games', { year: @week.season.year, seasonType: 'postseason', division: 'fbs' })
+      else
+        response = @conn.get('games', { year: @week.season.year, week: @week.number, division: 'fbs' })
+      end
     rescue Faraday::Error => e
       puts '+++++++++++++++++++'
       puts e.response[:status]
