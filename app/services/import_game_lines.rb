@@ -6,7 +6,12 @@ class ImportGameLines < ApplicationService
 
   def call
     begin
-      response = @conn.get('lines', { year: @week.season.year, week: @week.number })
+      # week 16 = bowls
+      if @week.number == 16
+        response = @conn.get('lines', { year: @week.season.year, seasonType: 'postseason' })
+      else
+        response = @conn.get('lines', { year: @week.season.year, week: @week.number })
+      end
     rescue Faraday::Error => e
       puts '+++++++++++++++++++'
       puts e.response[:status]
