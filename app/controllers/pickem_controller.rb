@@ -82,8 +82,7 @@ class PickemController < ApplicationController
     game_ids = games.map { |game| game.id }
 
     pickems = Pickem.where(game: game_ids).where(user: @current_user)
-    picks = pickems.map(&:team)
-    picks.map!(&:slug)
+    pickems.map { |pickem| "#{pickem.game.id}-#{pickem.team.slug}" }
   end
 
   def week_picks_for_all_users(week_number)
@@ -96,8 +95,7 @@ class PickemController < ApplicationController
     user_pickems = []
     users.each do |user|
       user_picks = Pickem.where(game: game_ids).where(user:)
-      user_picks = user_picks.map(&:team)
-      user_picks.map!(&:slug)
+      user_picks = user_picks.map { |pickem| "#{pickem.game.id}-#{pickem.team.slug}" }
 
       user_pickems.push({
         username: user.username,
