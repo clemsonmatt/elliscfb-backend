@@ -4,13 +4,18 @@ class CalculateUserStats < ApplicationService
   end
 
   def call
+    # get the current season
+    season = Season.find_by(active: true)
+    season_start = Date.parse("#{season.year}-08-01")
+    season_end = Date.parse("#{season.year+1}-01-31")
+
     # get all games that are pickems and complete
-    games = Game.where(pickem: true).where('winning_team_id IS NOT NULL').count
+    games = Game.where(pickem: true).where('winning_team_id IS NOT NULL').where('date > ? AND date < ?', season_start, season_end).count
 
     # wins
-    wins = Pickem.where(user: @user).joins(:game).where("games.winning_team_id = pickems.team_id").count
+    wins = Pickem.where(user: @user).joins(:game).where("games.winning_team_id = pickems.team_id").where('games.date > ? AND games.date < ?', season_start, season_end).count
     # losses
-    losses = Pickem.where(user: @user).joins(:game).where("games.winning_team_id IS NOT NULL AND games.winning_team_id != pickems.team_id").count
+    losses = Pickem.where(user: @user).joins(:game).where("games.winning_team_id IS NOT NULL AND games.winning_team_id != pickems.team_id").where('games.date > ? AND games.date < ?', season_start, season_end).count
     # misses
     misses = games - (wins + losses)
 
