@@ -8,9 +8,9 @@ class ImportWeekGameStats < ApplicationService
     begin
       # week 16 = bowls
       if @week.number == 16
-        response = @conn.get('games', { year: @week.season.year, seasonType: 'postseason', division: 'fbs' })
+        response = @conn.get('games', { year: @week.season.year, seasonType: 'postseason', classification: 'fbs' })
       else
-        response = @conn.get('games', { year: @week.season.year, week: @week.number, division: 'fbs' })
+        response = @conn.get('games', { year: @week.season.year, week: @week.number, classification: 'fbs' })
       end
     rescue Faraday::Error => e
       puts '+++++++++++++++++++'
@@ -34,12 +34,12 @@ class ImportWeekGameStats < ApplicationService
 
         # add home stats
         if created_game.home_team_stats.nil?
-          quarter_scores = game['home_line_scores']
+          quarter_scores = game['homeLineScores']
 
           home_stat = GameStat.create!(
             game: created_game,
             team: created_game.home_team,
-            final: game['home_points'],
+            final: game['homePoints'],
             q1: quarter_scores.shift,
             q2: quarter_scores.shift,
             q3: quarter_scores.shift,
@@ -54,12 +54,12 @@ class ImportWeekGameStats < ApplicationService
 
         # add away stats
         if created_game.away_team_stats.nil?
-          quarter_scores = game['away_line_scores']
+          quarter_scores = game['awayLineScores']
 
           away_stat = GameStat.create!(
             game: created_game,
             team: created_game.away_team,
-            final: game['away_points'],
+            final: game['awayPoints'],
             q1: quarter_scores.shift,
             q2: quarter_scores.shift,
             q3: quarter_scores.shift,
