@@ -8,9 +8,9 @@ class ImportWeekGames < ApplicationService
     begin
       # week 16 = bowls
       if @week.number == 16
-        response = @conn.get('games', { year: @week.season.year, seasonType: 'postseason', division: 'fbs' })
+        response = @conn.get('games', { year: @week.season.year, seasonType: 'postseason', classification: 'fbs' })
       else
-        response = @conn.get('games', { year: @week.season.year, week: @week.number, division: 'fbs' })
+        response = @conn.get('games', { year: @week.season.year, week: @week.number, classification: 'fbs' })
       end
     rescue Faraday::Error => e
       puts '+++++++++++++++++++'
@@ -21,17 +21,21 @@ class ImportWeekGames < ApplicationService
 
     games = response.body
 
+    puts '-=-=-=-=-=-=-=-='
+    puts games.first.inspect
+    puts '-=-=-=-=-=-=-=-='
+
     errors = []
 
     # loop over and add games
     games.each do |game|
       begin
-        home_team = Team.find_by(name_short: game['home_team'])
-        away_team = Team.find_by(name_short: game['away_team'])
-        bowl_name = game['notes'] if game['season_type'] != 'regular'
+        home_team = Team.find_by(name_short: game['homeTeam'])
+        away_team = Team.find_by(name_short: game['awayTeam'])
+        bowl_name = game['notes'] if game['seasonType'] != 'regular'
 
-        date = Time.find_zone('Eastern Time (US & Canada)').parse(game['start_date']).to_datetime
-        time = date.to_time.strftime('%I:%M %p') unless game['start_time_tbd']
+        date = Time.find_zone('Eastern Time (US & Canada)').parse(game['startDate']).to_datetime
+        time = date.to_time.strftime('%I:%M %p') unless game['startTimeTBD']
 
         cfbd_game_id = game['id']
 

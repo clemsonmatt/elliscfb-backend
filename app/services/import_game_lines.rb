@@ -36,7 +36,8 @@ class ImportGameLines < ApplicationService
         # add spread
         # home is predicted winner if spread has a "-"
         # away is predicted winner unless spread has a "-"
-        spread = game_line['lines'][0]['spread']
+        spread = game_line['lines'][0]['spread'].to_s
+        puts "spread: #{spread} | team: #{created_game.away_team.name_short}"
         predicted_winning_team = created_game.away_team
 
         if spread.include?('-')
@@ -46,6 +47,9 @@ class ImportGameLines < ApplicationService
 
         created_game.update(predicted_winning_team:, spread:)
       rescue => exception
+        puts '=-=-=-=-=-=-=-'
+        puts exception.inspect
+        puts '=-=-=-=-=-=-=-'
         errors.push game.to_json
       end
     end
